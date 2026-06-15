@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="560.0" prefWidth="960.0"
+            style="-fx-background-color: #F4F9F4;"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.template.MainController">
+
+    <children>
+
+        <!-- CABEÇALHO -->
+        <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="90.0" prefWidth="960.0"
+                    style="-fx-background-color: #1E5C1E;">
+            <children>
+                <Label layoutX="30.0" layoutY="18.0" text="Sistema de Gerenciamento de Bebidas" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="32.0" layoutY="55.0" text="Cadastro, edição, exclusão e pesquisa de bebidas" textFill="#DDEEDD">
+                    <font>
+                        <Font size="13.0" />
+                    </font>
+                </Label>
+
+                <ImageView fitHeight="72.0" fitWidth="72.0" layoutX="850.0" layoutY="9.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../imagens/logo_transparente.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+
+
+        <!-- CARD DO FORMULÁRIO -->
+        <AnchorPane layoutX="25.0" layoutY="112.0" prefHeight="170.0" prefWidth="600.0"
+                    style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: #C8E6C9; -fx-border-radius: 16;">
+            <children>
+                <Label layoutX="24.0" layoutY="18.0" text="Dados da Bebida" textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+
+                <Label layoutX="24.0" layoutY="58.0" text="Marca *" textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+
+                <TextField fx:id="txtMarca" layoutX="88.0" layoutY="54.0" prefHeight="31.0" prefWidth="175.0"
+                           promptText="Ex: Coca-Cola"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #81C784; -fx-background-color: #F7FFF7;" />
+
+                <Label layoutX="300.0" layoutY="58.0" text="Tipo *" textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+
+                <ComboBox fx:id="cmbTipo" layoutX="350.0" layoutY="54.0" prefHeight="31.0" prefWidth="195.0"
+                          promptText="Selecione o tipo"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #81C784; -fx-background-color: #F7FFF7;" />
+
+                <Label layoutX="24.0" layoutY="108.0" text="Sabor *" textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+
+                <TextField fx:id="txtSabor" layoutX="88.0" layoutY="104.0" prefHeight="31.0" prefWidth="175.0"
+                           promptText="Ex: Limão"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #81C784; -fx-background-color: #F7FFF7;" />
+
+                <CheckBox fx:id="chkAlcoolica" layoutX="350.0" layoutY="109.0" text="Bebida alcoólica"
+                          textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </CheckBox>
+
+                <Label layoutX="24.0" layoutY="142.0" text="* campos obrigatórios" textFill="#777777">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+
+
+        <!-- CARD DE AÇÕES -->
+        <AnchorPane layoutX="650.0" layoutY="112.0" prefHeight="170.0" prefWidth="285.0"
+                    style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: #C8E6C9; -fx-border-radius: 16;">
+            <children>
+                <Label layoutX="22.0" layoutY="18.0" text="Ações" textFill="#1E5C1E">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+
+                <Button fx:id="btnSalvar" layoutX="22.0" layoutY="56.0" mnemonicParsing="false"
+                        onAction="#btnSalvarAction" prefHeight="34.0" prefWidth="112.0"
+                        style="-fx-background-color: #1E5C1E; -fx-background-radius: 10;"
+                        text="Salvar" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="btnEditar" layoutX="150.0" layoutY="56.0" mnemonicParsing="false"
+                        onAction="#btnEditarAction" prefHeight="34.0" prefWidth="112.0"
+                        style="-fx-background-color: #2E7D32; -fx-background-radius: 10;"
+                        text="Editar" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="btnDeletar" layoutX="22.0" layoutY="104.0" mnemonicParsing="false"
+                        onAction="#btnDeletarAction" prefHeight="34.0" prefWidth="112.0"
+                        style="-fx-background-color: #B71C1C; -fx-background-radius: 10;"
+                        text="Deletar" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+
+                <Button fx:id="btnLimpar" layoutX="150.0" layoutY="104.0" mnemonicParsing="false"
+                        onAction="#btnLimparAction" prefHeight="34.0" prefWidth="112.0"
+                        style="-fx-background-color: #757575; -fx-background-radius: 10;"
+                        text="Limpar" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+
+
+        <!-- PESQUISA -->
+        <Label layoutX="30.0" layoutY="305.0" text="Pesquisar:" textFill="#1E5C1E">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+
+        <TextField fx:id="txtPesquisa" layoutX="115.0" layoutY="300.0" prefHeight="31.0" prefWidth="335.0"
+                   promptText="Digite marca, tipo ou sabor..."
+                   style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #81C784; -fx-background-color: white;" />
+
+        <Label fx:id="lblContador" layoutX="470.0" layoutY="306.0" text="0 registros cadastrados" textFill="#1E5C1E">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Label>
+
+
+        <!-- TABELA -->
+        <TableView fx:id="tblBebidas" layoutX="25.0" layoutY="350.0" onMouseClicked="#carregarCampos"
+                   prefHeight="170.0" prefWidth="700.0"
+                   style="-fx-background-color: white; -fx-border-color: #1E5C1E; -fx-border-radius: 10; -fx-background-radius: 10; -fx-selection-bar: #2E7D32; -fx-selection-bar-non-focused: #A5D6A7;">
+            <columns>
+                <TableColumn fx:id="colId" prefWidth="55.0" text="ID" />
+                <TableColumn fx:id="colMarca" prefWidth="170.0" text="Marca" />
+                <TableColumn fx:id="colTipo" prefWidth="160.0" text="Tipo" />
+                <TableColumn fx:id="colAlcoolica" prefWidth="130.0" text="Alcoólica" />
+                <TableColumn fx:id="colSabor" prefWidth="183.0" text="Sabor" />
+            </columns>
+        </TableView>
+
+
+        <!-- IMAGEM DECORATIVA -->
+        <ImageView fitHeight="170.0" fitWidth="170.0" layoutX="765.0" layoutY="350.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../../imagens/foto_principal.jpg" />
+            </image>
+        </ImageView>
+
+
+        <!-- MENSAGENS -->
+        <Label fx:id="lblMensagem" layoutX="25.0" layoutY="530.0" prefHeight="20.0" prefWidth="700.0"
+               text="Preencha os campos para cadastrar uma bebida." textFill="#1E5C1E">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Label>
+
+    </children>
+</AnchorPane>
