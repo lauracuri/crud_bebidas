@@ -1,4 +1,4 @@
-package com.template;
+package com.template.model.dto;
 
 public class BebidasDTO {
     private int id;

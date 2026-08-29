@@ -1,4 +1,4 @@
-package com.template;
+package com.template.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

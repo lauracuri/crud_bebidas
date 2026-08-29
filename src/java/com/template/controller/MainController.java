@@ -1,5 +1,9 @@
-package com.template;
+package com.template.controller;
 
+import com.template.model.dto.BebidasDTO;
+import com.template.services.BebidaService;
+import com.template.util.DialogUtil;
+import com.template.validator.BebidaValidator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -25,9 +29,6 @@ public class MainController {
     @FXML private ComboBox<String> cmbTipo;
     @FXML private CheckBox chkAlcoolica;
 
-    @FXML private Label lblMensagem;
-    @FXML private Label lblContador;
-
     @FXML private Button btnSalvar;
     @FXML private Button btnEditar;
     @FXML private Button btnDeletar;
@@ -44,6 +45,10 @@ public class MainController {
     private FilteredList<BebidasDTO> listaFiltrada;
 
     private boolean aguardandoConfirmacaoExclusao = false;
+
+    // Instâncias das classes de serviço e validação (fora da responsabilidade do controller)
+    private final BebidaService bebidaService = new BebidaService();
+    private final BebidaValidator bebidaValidator = new BebidaValidator();
 
     @FXML
     private void initialize() {
@@ -71,7 +76,6 @@ public class MainController {
                 btnDeletar.setDisable(false);
                 aguardandoConfirmacaoExclusao = false;
                 btnDeletar.setText("Deletar");
-                mostrarMensagem("Bebida selecionada. Agora você pode editar ou deletar.", "sucesso");
             }
         });
     }
@@ -104,12 +108,8 @@ public class MainController {
     }
 
     private void carregarBebidas() {
-        BebidasDAO objDAO = new BebidasDAO();
-        ArrayList<BebidasDTO> lista = objDAO.selecionarBebidas();
-
+        ArrayList<BebidasDTO> lista = bebidaService.selecionarBebidas();
         listaCompleta.setAll(lista);
-
-        atualizarContador();
     }
 
     private void filtrarTabela(String textoPesquisa) {
@@ -124,18 +124,6 @@ public class MainController {
                     || bebida.getTipo().toLowerCase().contains(filtro)
                     || bebida.getSabor().toLowerCase().contains(filtro);
         });
-
-        atualizarContador();
-    }
-
-    private void atualizarContador() {
-        int total = tblBebidas.getItems().size();
-
-        if (total == 1) {
-            lblContador.setText("1 registro encontrado");
-        } else {
-            lblContador.setText(total + " registros encontrados");
-        }
     }
 
     @FXML
@@ -168,40 +156,38 @@ public class MainController {
     }
 
     private boolean validarCampos() {
-        boolean camposValidos = true;
+        resetarEstilosCampos();
 
+        boolean valido = bebidaValidator.validarBebida(
+                txtMarca.getText(),
+                cmbTipo.getValue(),
+                txtSabor.getText()
+        );
+
+        if (!valido) {
+            destacarCamposObrigatorios();
+        }
+
+        return valido;
+    }
+
+    private void resetarEstilosCampos() {
         txtMarca.setStyle(estiloCampoNormal());
         txtSabor.setStyle(estiloCampoNormal());
         cmbTipo.setStyle(estiloCampoNormal());
+    }
 
-        if (txtMarca.getText().trim().isEmpty()) {
-            txtMarca.setStyle(estiloCampoErro());
-            camposValidos = false;
-        }
-
-        if (cmbTipo.getValue() == null) {
-            cmbTipo.setStyle(estiloCampoErro());
-            camposValidos = false;
-        }
-
-        if (txtSabor.getText().trim().isEmpty()) {
-            txtSabor.setStyle(estiloCampoErro());
-            camposValidos = false;
-        }
-
-        if (!camposValidos) {
-            mostrarMensagem("Preencha corretamente os campos obrigatórios: marca, tipo e sabor.", "erro");
-            return false;
-        }
-
-        return true;
+    private void destacarCamposObrigatorios() {
+        txtMarca.setStyle(estiloCampoErro());
+        cmbTipo.setStyle(estiloCampoErro());
+        txtSabor.setStyle(estiloCampoErro());
     }
 
     private String estiloCampoNormal() {
         return "-fx-background-radius: 8; "
                 + "-fx-border-radius: 8; "
-                + "-fx-border-color: #81C784; "
-                + "-fx-background-color: #F7FFF7;";
+                + "-fx-border-color: #64B5F6; "
+                + "-fx-background-color: #F5F9FF;";
     }
 
     private String estiloCampoErro() {
@@ -211,36 +197,23 @@ public class MainController {
                 + "-fx-background-color: #FFEBEE;";
     }
 
-    private void mostrarMensagem(String mensagem, String tipo) {
-        lblMensagem.setText(mensagem);
-
-        if (tipo.equals("erro")) {
-            lblMensagem.setTextFill(javafx.scene.paint.Color.web("#B71C1C"));
-        } else if (tipo.equals("sucesso")) {
-            lblMensagem.setTextFill(javafx.scene.paint.Color.web("#1E5C1E"));
-        } else {
-            lblMensagem.setTextFill(javafx.scene.paint.Color.web("#555555"));
-        }
-    }
-
     @FXML
     private void btnSalvarAction(ActionEvent event) {
         if (!validarCampos()) {
             return;
         }
 
-        BebidasDTO bebidaDto = new BebidasDTO();
-        bebidaDto.setMarca(txtMarca.getText().trim());
-        bebidaDto.setTipo(cmbTipo.getValue());
-        bebidaDto.setAlcoolica(chkAlcoolica.isSelected());
-        bebidaDto.setSabor(txtSabor.getText().trim());
-
-        new BebidasDAO().cadastrarBebida(bebidaDto);
+        bebidaService.cadastrarBebida(
+                txtMarca.getText().trim(),
+                cmbTipo.getValue(),
+                chkAlcoolica.isSelected(),
+                txtSabor.getText().trim()
+        );
 
         carregarBebidas();
         limparCampos();
 
-        mostrarMensagem("Bebida cadastrada com sucesso!", "sucesso");
+        DialogUtil.showInfo("Sucesso", "Bebida cadastrada com sucesso!");
     }
 
     @FXML
@@ -248,7 +221,7 @@ public class MainController {
         BebidasDTO bebidaSelecionada = tblBebidas.getSelectionModel().getSelectedItem();
 
         if (bebidaSelecionada == null) {
-            mostrarMensagem("Selecione uma bebida na tabela para editar.", "erro");
+            DialogUtil.showError("Erro", "Selecione uma bebida na tabela para editar.");
             return;
         }
 
@@ -256,19 +229,18 @@ public class MainController {
             return;
         }
 
-        BebidasDTO bebidaDto = new BebidasDTO();
-        bebidaDto.setId(bebidaSelecionada.getId());
-        bebidaDto.setMarca(txtMarca.getText().trim());
-        bebidaDto.setTipo(cmbTipo.getValue());
-        bebidaDto.setAlcoolica(chkAlcoolica.isSelected());
-        bebidaDto.setSabor(txtSabor.getText().trim());
-
-        new BebidasDAO().atualizarBebida(bebidaDto);
+        bebidaService.atualizarBebida(
+                bebidaSelecionada.getId(),
+                txtMarca.getText().trim(),
+                cmbTipo.getValue(),
+                chkAlcoolica.isSelected(),
+                txtSabor.getText().trim()
+        );
 
         carregarBebidas();
         limparCampos();
 
-        mostrarMensagem("Bebida atualizada com sucesso!", "sucesso");
+        DialogUtil.showInfo("Sucesso", "Bebida atualizada com sucesso!");
     }
 
     @FXML
@@ -276,28 +248,28 @@ public class MainController {
         BebidasDTO bebidaSelecionada = tblBebidas.getSelectionModel().getSelectedItem();
 
         if (bebidaSelecionada == null) {
-            mostrarMensagem("Selecione uma bebida na tabela para deletar.", "erro");
+            DialogUtil.showError("Erro", "Selecione uma bebida na tabela para deletar.");
             return;
         }
 
         if (!aguardandoConfirmacaoExclusao) {
             aguardandoConfirmacaoExclusao = true;
             btnDeletar.setText("Confirmar");
-            mostrarMensagem("Clique em Confirmar para excluir a bebida selecionada.", "erro");
+            DialogUtil.showWarning("Atenção", "Clique em Confirmar para excluir a bebida selecionada.");
             return;
         }
 
-        new BebidasDAO().excluirBebida(bebidaSelecionada.getId());
+        bebidaService.excluirBebida(bebidaSelecionada.getId());
 
         carregarBebidas();
         limparCampos();
 
-        mostrarMensagem("Bebida excluída com sucesso!", "sucesso");
+        DialogUtil.showInfo("Sucesso", "Bebida excluída com sucesso!");
     }
 
     @FXML
     private void btnLimparAction(ActionEvent event) {
         limparCampos();
-        mostrarMensagem("Campos limpos. Você pode cadastrar uma nova bebida.", "sucesso");
+        DialogUtil.showInfo("Sucesso", "Campos limpos. Você pode cadastrar uma nova bebida.");
     }
 }
