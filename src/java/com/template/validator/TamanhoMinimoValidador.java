@@ -1,5 +1,9 @@
 package com.template.validator;
 
+/**
+ * Validador para garantir tamanho mínimo de caracteres em campos textuais.
+ * Exemplo de validador parametrizável que implementa a interface genérica Validador<String>.
+ */
 public class TamanhoMinimoValidador implements Validador<String> {
     private final String nomeCampo;
     private final String valor;

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class BebidasDAO {
+public class BebidasDAO implements IBebidasDAO {
 
     public ArrayList<BebidasDTO> selecionarBebidas() {
         ArrayList<BebidasDTO> listaBebidas = new ArrayList<>();

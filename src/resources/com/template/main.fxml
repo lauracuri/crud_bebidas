@@ -7,78 +7,111 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="520.0" prefWidth="960.0"
-            style="-fx-background-color: #F2F7FD;"
+<AnchorPane fx:id="rootPane" prefHeight="650.0" prefWidth="980.0"
+            style="-fx-background-color: #F4F7FC;"
             xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.template.controller.MainController">
 
     <children>
 
-        <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="64.0" prefWidth="960.0"
-                    style="-fx-background-color: #0D47A1;">
+        <!-- CABEÇALHO MODERNO (Layout UI 1) -->
+        <AnchorPane layoutX="0.0" layoutY="0.0" prefHeight="70.0" prefWidth="980.0"
+                    style="-fx-background-color: linear-gradient(to right, #0D47A1, #1976D2); -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 8, 0, 0, 3);">
             <children>
-                <Label layoutX="30.0" layoutY="18.0" text="Sistema de Gerenciamento de Bebidas" textFill="WHITE">
+                <Label layoutX="25.0" layoutY="12.0" text="🍹 Sistema de Gerenciamento de Bebidas" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="26.0" />
+                        <Font name="System Bold" size="20.0" />
                     </font>
                 </Label>
+                <Label layoutX="27.0" layoutY="40.0" text="Catálogo, controle de tipos e cadastro com validação de dados" textFill="#BBDEFB">
+                    <font>
+                        <Font size="12.0" />
+                    </font>
+                </Label>
+
+                <!-- Botão Sobre o Sistema (Layout UI 1) -->
+                <Button fx:id="btnSobre" layoutX="825.0" layoutY="18.0" mnemonicParsing="false"
+                        onAction="#btnSobreAction" prefHeight="34.0" prefWidth="130.0"
+                        style="-fx-background-color: rgba(255,255,255,0.18); -fx-background-radius: 8; -fx-border-color: rgba(255,255,255,0.4); -fx-border-radius: 8; -fx-cursor: hand;"
+                        text="ℹ️ Sobre o Sistema" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                    <tooltip>
+                        <Tooltip text="Informações sobre a aplicação e arquitetura SOLID" />
+                    </tooltip>
+                </Button>
             </children>
         </AnchorPane>
 
 
-        <AnchorPane layoutX="25.0" layoutY="86.0" prefHeight="170.0" prefWidth="600.0"
-                    style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: #BBDEFB; -fx-border-radius: 16;">
+        <!-- CARD 1: FORMULÁRIO DE DADOS (Layout UI 2) -->
+        <AnchorPane layoutX="25.0" layoutY="85.0" prefHeight="170.0" prefWidth="575.0"
+                    style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E0E7F1; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);">
             <children>
-                <Label layoutX="24.0" layoutY="18.0" text="Dados da Bebida" textFill="#0D47A1">
+                <Label layoutX="20.0" layoutY="14.0" text="📝 Dados da Bebida" textFill="#0D47A1">
                     <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="15.0" />
                     </font>
                 </Label>
 
-                <Label layoutX="24.0" layoutY="58.0" text="Marca *" textFill="#0D47A1">
+                <!-- Linha 1: Marca e Tipo -->
+                <Label layoutX="20.0" layoutY="50.0" text="Marca *" textFill="#37474F">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-
-                <TextField fx:id="txtMarca" layoutX="88.0" layoutY="54.0" prefHeight="31.0" prefWidth="175.0"
+                <TextField fx:id="txtMarca" layoutX="80.0" layoutY="45.0" prefHeight="32.0" prefWidth="180.0"
                            promptText="Ex: Coca-Cola"
-                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #64B5F6; -fx-background-color: #F5F9FF;" />
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #90CAF9; -fx-background-color: #F8FAFD;">
+                    <tooltip>
+                        <Tooltip text="Informe a marca da bebida (mínimo 2 caracteres)" />
+                    </tooltip>
+                </TextField>
 
-                <Label layoutX="300.0" layoutY="58.0" text="Tipo *" textFill="#0D47A1">
+                <Label layoutX="280.0" layoutY="50.0" text="Tipo *" textFill="#37474F">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
+                <ComboBox fx:id="cmbTipo" layoutX="335.0" layoutY="45.0" prefHeight="32.0" prefWidth="215.0"
+                          promptText="Selecione a categoria"
+                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #90CAF9; -fx-background-color: #F8FAFD;">
+                    <tooltip>
+                        <Tooltip text="Selecione o tipo de bebida na lista" />
+                    </tooltip>
+                </ComboBox>
 
-                <ComboBox fx:id="cmbTipo" layoutX="350.0" layoutY="54.0" prefHeight="31.0" prefWidth="195.0"
-                          promptText="Selecione o tipo"
-                          style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #64B5F6; -fx-background-color: #F5F9FF;" />
-
-                <Label layoutX="24.0" layoutY="108.0" text="Sabor *" textFill="#0D47A1">
+                <!-- Linha 2: Sabor e Alcoólica -->
+                <Label layoutX="20.0" layoutY="100.0" text="Sabor *" textFill="#37474F">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
                 </Label>
-
-                <TextField fx:id="txtSabor" layoutX="88.0" layoutY="104.0" prefHeight="31.0" prefWidth="175.0"
+                <TextField fx:id="txtSabor" layoutX="80.0" layoutY="95.0" prefHeight="32.0" prefWidth="180.0"
                            promptText="Ex: Limão"
-                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #64B5F6; -fx-background-color: #F5F9FF;" />
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #90CAF9; -fx-background-color: #F8FAFD;">
+                    <tooltip>
+                        <Tooltip text="Informe o sabor da bebida (mínimo 2 caracteres com letras)" />
+                    </tooltip>
+                </TextField>
 
-                <CheckBox fx:id="chkAlcoolica" layoutX="350.0" layoutY="109.0" text="Bebida alcoólica"
-                          textFill="#0D47A1">
+                <CheckBox fx:id="chkAlcoolica" layoutX="335.0" layoutY="100.0" text="Bebida com teor alcoólico" textFill="#0D47A1">
                     <font>
                         <Font name="System Bold" size="13.0" />
                     </font>
+                    <tooltip>
+                        <Tooltip text="Marque se a bebida contiver álcool" />
+                    </tooltip>
                 </CheckBox>
 
-                <Label layoutX="24.0" layoutY="142.0" text="* campos obrigatórios" textFill="#777777">
+                <Label layoutX="20.0" layoutY="142.0" text="* Campos de preenchimento obrigatório" textFill="#90A4AE">
                     <font>
                         <Font size="11.0" />
                     </font>
@@ -87,75 +120,182 @@
         </AnchorPane>
 
 
-        <AnchorPane layoutX="650.0" layoutY="86.0" prefHeight="170.0" prefWidth="285.0"
-                    style="-fx-background-color: white; -fx-background-radius: 16; -fx-border-color: #BBDEFB; -fx-border-radius: 16;">
+        <!-- CARD 2: PAINEL DE AÇÕES E BOTÕES COM ÍCONES (Layout UI 2) -->
+        <AnchorPane layoutX="615.0" layoutY="85.0" prefHeight="170.0" prefWidth="180.0"
+                    style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E0E7F1; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);">
             <children>
-                <Label layoutX="22.0" layoutY="18.0" text="Ações" textFill="#0D47A1">
+                <Label layoutX="18.0" layoutY="14.0" text="⚡ Ações" textFill="#0D47A1">
                     <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="15.0" />
                     </font>
                 </Label>
 
-                <Button fx:id="btnSalvar" layoutX="22.0" layoutY="56.0" mnemonicParsing="false"
-                        onAction="#btnSalvarAction" prefHeight="34.0" prefWidth="112.0"
-                        style="-fx-background-color: #0D47A1; -fx-background-radius: 10;"
-                        text="Salvar" textFill="WHITE">
+                <!-- Botão Salvar (Verde) -->
+                <Button fx:id="btnSalvar" layoutX="18.0" layoutY="43.0" mnemonicParsing="false"
+                        onAction="#btnSalvarAction" prefHeight="30.0" prefWidth="144.0"
+                        style="-fx-background-color: #2E7D32; -fx-background-radius: 8; -fx-cursor: hand;"
+                        text="💾 Salvar" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="System Bold" size="12.0" />
                     </font>
+                    <tooltip>
+                        <Tooltip text="Cadastrar nova bebida (Ctrl + S)" />
+                    </tooltip>
                 </Button>
 
-                <Button fx:id="btnEditar" layoutX="150.0" layoutY="56.0" mnemonicParsing="false"
-                        onAction="#btnEditarAction" prefHeight="34.0" prefWidth="112.0"
-                        style="-fx-background-color: #1565C0; -fx-background-radius: 10;"
-                        text="Editar" textFill="WHITE">
+                <!-- Botão Editar (Azul) -->
+                <Button fx:id="btnEditar" layoutX="18.0" layoutY="78.0" mnemonicParsing="false"
+                        onAction="#btnEditarAction" prefHeight="30.0" prefWidth="144.0"
+                        style="-fx-background-color: #1565C0; -fx-background-radius: 8; -fx-cursor: hand;"
+                        text="✏️ Editar" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="System Bold" size="12.0" />
                     </font>
+                    <tooltip>
+                        <Tooltip text="Atualizar bebida selecionada (Ctrl + E)" />
+                    </tooltip>
                 </Button>
 
-                <Button fx:id="btnDeletar" layoutX="22.0" layoutY="104.0" mnemonicParsing="false"
-                        onAction="#btnDeletarAction" prefHeight="34.0" prefWidth="112.0"
-                        style="-fx-background-color: #B71C1C; -fx-background-radius: 10;"
-                        text="Deletar" textFill="WHITE">
+                <!-- Botão Deletar (Vermelho) -->
+                <Button fx:id="btnDeletar" layoutX="18.0" layoutY="113.0" mnemonicParsing="false"
+                        onAction="#btnDeletarAction" prefHeight="30.0" prefWidth="68.0"
+                        style="-fx-background-color: #C62828; -fx-background-radius: 8; -fx-cursor: hand;"
+                        text="🗑️ Excluir" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="System Bold" size="11.0" />
                     </font>
+                    <tooltip>
+                        <Tooltip text="Excluir bebida selecionada (Delete)" />
+                    </tooltip>
                 </Button>
 
-                <Button fx:id="btnLimpar" layoutX="150.0" layoutY="104.0" mnemonicParsing="false"
-                        onAction="#btnLimparAction" prefHeight="34.0" prefWidth="112.0"
-                        style="-fx-background-color: #757575; -fx-background-radius: 10;"
-                        text="Limpar" textFill="WHITE">
+                <!-- Botão Limpar (Cinza) -->
+                <Button fx:id="btnLimpar" layoutX="94.0" layoutY="113.0" mnemonicParsing="false"
+                        onAction="#btnLimparAction" prefHeight="30.0" prefWidth="68.0"
+                        style="-fx-background-color: #546E7A; -fx-background-radius: 8; -fx-cursor: hand;"
+                        text="🔄 Limpar" textFill="WHITE">
                     <font>
-                        <Font name="System Bold" size="13.0" />
+                        <Font name="System Bold" size="11.0" />
                     </font>
+                    <tooltip>
+                        <Tooltip text="Limpar formulário e seleção (Esc)" />
+                    </tooltip>
                 </Button>
             </children>
         </AnchorPane>
 
 
-        <Label layoutX="30.0" layoutY="279.0" text="Pesquisar:" textFill="#0D47A1">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Label>
+        <!-- CARD 3: PAINEL DE ATALHOS E DICAS RÁPIDAS (Usabilidade UX 3) -->
+        <AnchorPane layoutX="810.0" layoutY="85.0" prefHeight="170.0" prefWidth="145.0"
+                    style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-color: #E0E7F1; -fx-border-radius: 12; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 6, 0, 0, 2);">
+            <children>
+                <Label layoutX="14.0" layoutY="14.0" text="⌨️ Atalhos" textFill="#0D47A1">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="42.0" text="Ctrl+S: Salvar" textFill="#546E7A">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="64.0" text="Ctrl+E: Editar" textFill="#546E7A">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="86.0" text="Delete: Excluir" textFill="#546E7A">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="108.0" text="Esc: Limpar" textFill="#546E7A">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+                <Label layoutX="14.0" layoutY="130.0" text="Ctrl+F: Pesquisar" textFill="#546E7A">
+                    <font>
+                        <Font size="11.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
 
-        <TextField fx:id="txtPesquisa" layoutX="115.0" layoutY="274.0" prefHeight="31.0" prefWidth="335.0"
-                   promptText="Digite marca, tipo ou sabor..."
-                   style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #64B5F6; -fx-background-color: white;" />
 
-        <TableView fx:id="tblBebidas" layoutX="25.0" layoutY="324.0" onMouseClicked="#carregarCampos"
-                   prefHeight="170.0" prefWidth="700.0"
-                   style="-fx-background-color: white; -fx-border-color: #0D47A1; -fx-border-radius: 10; -fx-background-radius: 10; -fx-selection-bar: #1565C0; -fx-selection-bar-non-focused: #90CAF9;">
+        <!-- LINHA DE PESQUISA E CONTADOR (Usabilidade UX 1) -->
+        <AnchorPane layoutX="25.0" layoutY="265.0" prefHeight="40.0" prefWidth="930.0">
+            <children>
+                <Label layoutX="2.0" layoutY="10.0" text="🔍 Pesquisar:" textFill="#0D47A1">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="txtPesquisa" layoutX="90.0" layoutY="4.0" prefHeight="32.0" prefWidth="320.0"
+                           promptText="Filtrar por marca, tipo ou sabor... (Ctrl+F)"
+                           style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #90CAF9; -fx-background-color: white;">
+                    <tooltip>
+                        <Tooltip text="Digite para pesquisar em tempo real" />
+                    </tooltip>
+                </TextField>
+                <!-- Botão Limpar Pesquisa -->
+                <Button fx:id="btnLimparPesquisa" layoutX="415.0" layoutY="4.0" mnemonicParsing="false"
+                        onAction="#btnLimparPesquisaAction" prefHeight="32.0" prefWidth="34.0"
+                        style="-fx-background-color: #ECEFF1; -fx-background-radius: 8; -fx-border-color: #CFD8DC; -fx-border-radius: 8; -fx-cursor: hand;"
+                        text="❌">
+                    <font>
+                        <Font size="10.0" />
+                    </font>
+                    <tooltip>
+                        <Tooltip text="Limpar campo de pesquisa" />
+                    </tooltip>
+                </Button>
+
+                <!-- Contador Dinâmico de Registros (Usabilidade UX 1) -->
+                <Label fx:id="lblContador" alignment="CENTER_RIGHT" layoutX="520.0" layoutY="9.0" prefHeight="22.0" prefWidth="410.0"
+                       style="-fx-background-color: #E3F2FD; -fx-background-radius: 12; -fx-padding: 2 12 2 12;"
+                       text="📊 Total: 0 bebidas cadastradas" textFill="#0D47A1">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+
+
+        <!-- TABELA DE BEBIDAS COM BADGES (Layout UI 3) -->
+        <TableView fx:id="tblBebidas" layoutX="25.0" layoutY="315.0" onMouseClicked="#carregarCampos"
+                   prefHeight="275.0" prefWidth="930.0"
+                   style="-fx-background-color: white; -fx-border-color: #CFD8DC; -fx-border-radius: 10; -fx-background-radius: 10; -fx-selection-bar: #1E88E5; -fx-selection-bar-non-focused: #BBDEFB;">
             <columns>
-                <TableColumn fx:id="colId" prefWidth="55.0" text="ID" />
-                <TableColumn fx:id="colMarca" prefWidth="170.0" text="Marca" />
-                <TableColumn fx:id="colTipo" prefWidth="160.0" text="Tipo" />
-                <TableColumn fx:id="colAlcoolica" prefWidth="130.0" text="Alcoólica" />
-                <TableColumn fx:id="colSabor" prefWidth="183.0" text="Sabor" />
+                <TableColumn fx:id="colId" prefWidth="65.0" text="ID" />
+                <TableColumn fx:id="colMarca" prefWidth="250.0" text="Marca" />
+                <TableColumn fx:id="colTipo" prefWidth="210.0" text="Tipo" />
+                <TableColumn fx:id="colAlcoolica" prefWidth="160.0" text="Alcoólica" />
+                <TableColumn fx:id="colSabor" prefWidth="230.0" text="Sabor" />
             </columns>
+            <placeholder>
+                <Label text="Nenhuma bebida cadastrada ou encontrada." textFill="#90A4AE">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+            </placeholder>
         </TableView>
+
+
+        <!-- BARRA DE STATUS / FEEDBACK VISUAL COLORIDO (Usabilidade UX 2) -->
+        <AnchorPane fx:id="paneStatus" layoutX="0.0" layoutY="605.0" prefHeight="45.0" prefWidth="980.0"
+                    style="-fx-background-color: #E8F5E9; -fx-border-color: #C8E6C9; -fx-border-width: 1 0 0 0;">
+            <children>
+                <Label fx:id="lblStatus" layoutX="25.0" layoutY="12.0"
+                       text="✓ Sistema pronto para operações." textFill="#2E7D32">
+                    <font>
+                        <Font name="System Bold" size="13.0" />
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
 
     </children>
 </AnchorPane>
